@@ -3,26 +3,30 @@
 RCSwitch mySwitch = RCSwitch();
 
 void setup() {
+  Serial.begin(9600);
+  pinMode(7,INPUT);
+  pinMode(8, OUTPUT);
+  pinMode(12, OUTPUT);
 
- Serial.begin(9600);
-
- // Transmitter is connected to Arduino Pin #10 
- mySwitch.enableTransmit(2);
-
- // Optional set pulse length.
- mySwitch.setPulseLength(165);
-
- // set protocol (default is 1, will work for most outlets)
- // mySwitch.setProtocol(2);
-
- // Optional set number of transmission repetitions.
- // mySwitch.setRepeatTransmit(15);
-
-
+  mySwitch.enableTransmit(13);
+  mySwitch.setPulseLength(165);
+  Serial.println("starting");
 }
 
 void loop() {
- mySwitch.send("Hello World");
- Serial.println("transmitting...");
- delay(1000);
+  digitalWrite(12,HIGH);
+  if (digitalRead(7) == HIGH){
+    Serial.println("button pressed");
+    digitalWrite(4,HIGH);
+    mySwitch.send("Hello World");
+    Serial.println("transmitting...");
+  }
+  else{
+    digitalWrite(4,LOW);
+    Serial.println("button off");
+  }
+  delay(100);
+
+
+
 }

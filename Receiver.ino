@@ -6,23 +6,29 @@ void setup() {
   Serial.begin(9600);
   mySwitch.enableReceive(0);  // Receiver on interrupt 0 => that is pin #2
   Serial.println("started");
+  pinMode(12, OUTPUT);
 }
 
 void loop() {
+
+
   if (mySwitch.available()) {
-    
+
     int value = mySwitch.getReceivedValue();
-    
+
     if (value == 0) {
       Serial.print("Unknown encoding");
     } else {
       Serial.print("Received ");
-      Serial.print( value );
+      Serial.print(value);
       Serial.print(" / ");
-      Serial.print( mySwitch.getReceivedBitlength() );
+      Serial.print(mySwitch.getReceivedBitlength());
       Serial.print("bit ");
       Serial.print("Protocol: ");
-      Serial.println( mySwitch.getReceivedProtocol() );
+      Serial.println(mySwitch.getReceivedProtocol());
+      digitalWrite(12,HIGH);
+      delay(500);
+      digitalWrite(12,LOW);
     }
 
     mySwitch.resetAvailable();
