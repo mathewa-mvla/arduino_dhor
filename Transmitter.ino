@@ -3,15 +3,16 @@
 RCSwitch mySwitch = RCSwitch();
 
 void setup() {
+  Serial.println("starting");
   Serial.begin(9600);
   pinMode(7,INPUT);
   pinMode(4,INPUT);
   pinMode(12,OUTPUT);
 
-
+  
   mySwitch.enableTransmit(10);
   mySwitch.setPulseLength(165);
-  Serial.println("starting");
+  
 }
 
 void loop() {
