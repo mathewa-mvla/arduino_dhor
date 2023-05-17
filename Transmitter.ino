@@ -5,6 +5,8 @@ RCSwitch mySwitch = RCSwitch();
 void setup() {
   Serial.begin(9600);
   pinMode(7,INPUT);
+  pinMode(4,INPUT);
+  pinMode(12,OUTPUT);
 
 
   mySwitch.enableTransmit(10);
@@ -13,13 +15,14 @@ void setup() {
 }
 
 void loop() {
+  digitalWrite(12,HIGH);
   if (digitalRead(7) == HIGH){
-    Serial.println("button pressed");
-    mySwitch.send("Hello World");
-    Serial.println("transmitting...");
+
+    mySwitch.send("000000000001010100010001");//5393
+
   }
-  else{
-    Serial.println("button off");
+  if(digitalRead(4)==HIGH){
+    mySwitch.send("000000000001010100010100"); //5396
   }
   delay(100);
 
