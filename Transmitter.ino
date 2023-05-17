@@ -19,10 +19,12 @@ void loop() {
   if (digitalRead(7) == HIGH){
 
     mySwitch.send("000000000001010100010001");//5393
+    Serial.println("button 1 pressed");
 
   }
   if(digitalRead(4)==HIGH){
     mySwitch.send("000000000001010100010100"); //5396
+    Serial.println("button 2 pressed");
   }
   delay(100);
 
