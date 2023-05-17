@@ -1,27 +1,26 @@
+
 #include <RCSwitch.h>
 #include <Servo.h>
-#include <ezButton.h>
-
-// constants won't change
- // Arduino pin connected to button's pin
-const int SERVO_PIN  = 3; // Arduino pin connected to servo motor's pin
-int angle = 0;
- // create ezButton object that attach to pin 7;
-Servo servo;  
-
+//#include <ezButton.h>
 
 RCSwitch mySwitch = RCSwitch();
+const int SERVO_PIN  = 8; 
+//const int LED_PIN = 13;
+const int INITIAL_ANG = 0;
+const int FINAL_ANG = 90;
+Servo servo;
+int ang;
+//RCSwitch mySwitch = RCSwitch();
 
 void setup() {
   Serial.begin(9600);
   mySwitch.enableReceive(0);  // Receiver on interrupt 0 => that is pin #2
   Serial.println("started");
   pinMode(12, OUTPUT);
-      // initialize serial
- // set debounce time to 50 milliseconds
-  // servo.attach(SERVO_PIN);    // attaches the servo on pin 9 to the servo object
+  ang = 0;
+  servo.attach(SERVO_PIN);
+  servo.write(0);
 
-  // servo.write(angle);
 }
 
 void loop() {
@@ -35,32 +34,34 @@ void loop() {
       Serial.print("Unknown encoding");
     } 
     else {
-      // Serial.print("Received ");
-      // Serial.print(value);
+      Serial.print(value);
       if (value==5396){
         Serial.println("left button is  pressed");
+        //open
+        ang = 0;
+        while (ang <= 90) {
+          delay(100);
+          ang = ang + 10;
+          servo.write(ang);
+          Serial.println("in loop");
+          Serial.println(ang);
+        }
       }
       else if (value==5393){
         Serial.println("right button is pressed");
+        ang = 90;
+        while (ang >= 0) {
+          delay(100);
+          ang = ang - 10;
+          servo.write(ang);
+          Serial.println(ang);
+
+    }
+
       }
       else{
         Serial.println(value);
       }
-      // Serial.print(" / ");
-      // Serial.print(mySwitch.getReceivedBitlength());
-      // Serial.print("bit ");
-      // Serial.print("Protocol: ");
-      // Serial.println(mySwitch.getReceivedProtocol());
-      // digitalWrite(12,HIGH);
-      // delay(500);
-      // digitalWrite(12,LOW);
-      // while (angle <= 90) {
-      //   delay(25);
-      //   angle=angle+1;
-      //   servo.write(angle); 
-      // }
-      // delay(1000);
-      // Serial.println("completed servo loop");
     }
 
     mySwitch.resetAvailable();
